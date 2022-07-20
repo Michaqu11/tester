@@ -84,8 +84,8 @@
           </q-item-section>
         </q-item>
 
-        <q-item-label class="text-center absolute-bottom text-subtitle2">
-          <a overline class="text-grey-5 full-height ">by Michal Jasinski</a>
+        <q-item-label class="text-center absolute-bottom text-subtitle2  q-mb-md">
+          <a overline class="text-grey-5 full-height">by Michal Jasinski</a>
         </q-item-label>
       </q-list>
     </q-drawer>

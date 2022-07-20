@@ -13,8 +13,9 @@
           </p>
         </div>
         <upload-info-vue />
-        <q-separator />
-        <div class="q-gutter-md q-mt-xl row items-start flex flex-center column">
+
+        <q-separator class="q-mt-lg"/>
+        <div class="q-gutter-md q-mt-md row items-start flex flex-center column">
           
           <q-input filled v-model="title" label="Title" class="MyInput"> <template v-slot:prepend>
             <q-icon name="notes" />
@@ -235,6 +236,11 @@ export default defineComponent({
   width: 70%;
   .q-field__label {
     text-align: left;
+  }
+    @media (min-width: 900px) { 
+    width: 50%;
+    text-align: left;
+    
   }
 }
 </style>
