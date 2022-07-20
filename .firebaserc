@@ -1,0 +1,8 @@
+{
+  "projects": {
+    "default": "testerapp-4531e",
+    "tester": "testerapp-4531e"
+  },
+  "targets": {},
+  "etags": {}
+}
