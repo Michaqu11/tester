@@ -84,7 +84,7 @@
           </q-item-section>
         </q-item>
 
-        <q-item-label class="text-center absolute-bottom text-subtitle2  q-mb-md">
+        <q-item-label class="text-center absolute-bottom text-subtitle2  q-mb-md" @click="installHide()">
           <a overline class="text-grey-5 full-height">by Michal Jasinski</a>
         </q-item-label>
       </q-list>
@@ -174,6 +174,17 @@ export default defineComponent({
       deferredPrompt = null;
     }
 
+    function installHide () {
+      showInstall.value = false
+      leftDrawerOpen.value = !leftDrawerOpen.value
+      // Show the install prompt
+      if(deferredPrompt)
+        deferredPrompt.prompt();
+
+      // Wait for the user to respond to the prompt
+      deferredPrompt = null;
+    }
+
     function footerSettimg () {
       localStorage.setItem("footer",  showFooter.value);
     }
@@ -222,7 +233,8 @@ export default defineComponent({
       showInstall,
       darkMode,
       changeBg,
-      route
+      route,
+      installHide
     };
   },
 });
