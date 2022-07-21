@@ -163,6 +163,12 @@ export default defineComponent({
       // Show the install prompt
       if(deferredPrompt)
         deferredPrompt.prompt();
+      else {
+         $q.notify({
+        type: "negative",
+        message: 'You cant install application on this device. Try again later.',
+      });
+      }
 
       // Wait for the user to respond to the prompt
       deferredPrompt = null;
