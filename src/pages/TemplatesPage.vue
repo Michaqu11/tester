@@ -1,7 +1,7 @@
 <template>
-  <q-page class="column text-center">
+  <q-page class="text-center">
     <h6>Select a test by clicking on the card</h6>
-    <div class="flex flex-center q-mb-xl">
+    <div class="flex flex-center">
       <q-card v-if="data" clickable v-ripple :id="item.json" @click="pushToLocalStroage(item.json)" v-for="item in data" class="q-py-md q-my-sm my_card">
         <q-img v-if="item.image" :src="item.image" style="max-height: 50%; max-width: 50%;"/>
         <q-card-section class="text-h6">

@@ -161,7 +161,8 @@ export default defineComponent({
       showInstall.value = false
       leftDrawerOpen.value = !leftDrawerOpen.value
       // Show the install prompt
-      deferredPrompt.prompt();
+      if(deferredPrompt)
+        deferredPrompt.prompt();
 
       // Wait for the user to respond to the prompt
       deferredPrompt = null;
@@ -174,6 +175,12 @@ export default defineComponent({
     function changeBg () {
       $q.dark.set(darkMode.value)
       localStorage.setItem("dark", darkMode.value);
+      let color = "#ffffff"
+      if (darkMode.value)
+        color = "#000000"
+         
+      document.querySelector('meta[name="theme-color"]').setAttribute('content',  color)
+      
     
     }
     //watch(changeBg, darkMode)
@@ -182,6 +189,13 @@ export default defineComponent({
       }
     onMounted(() => {
 
+      window.addEventListener('beforeinstallprompt', function (event) {
+      // Prevent Chrome 67 and earlier from automatically showing the prompt
+      event.preventDefault();
+      // Stash the event so it can be triggered later.
+      deferredPrompt = event;
+      });
+
       if (screen.width <= 500) {
         showInstall.value = false
         if(localStorage.getItem("footer") == undefined)
@@ -189,15 +203,7 @@ export default defineComponent({
       }
 
       changeBg()  
-      footerSettimg()
-
-      window.addEventListener('beforeinstallprompt', function (event) {
-      // Prevent Chrome 67 and earlier from automatically showing the prompt
-      event.preventDefault();
-      // Stash the event so it can be triggered later.
-      deferredPrompt = event;
-      });
-     
+      footerSettimg()     
 
     }) 
     
