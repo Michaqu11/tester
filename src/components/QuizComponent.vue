@@ -262,37 +262,31 @@ export default defineComponent({
     }
 
     function filters(select) {
-      if (select) {
-        if (localStorage.getItem("dark")) {
-          if (
-            document.getElementById(select).style.backgroundColor == "black"
-          ) {
-            document.getElementById(select).style.backgroundColor = "#1d1d1d";
-            document.getElementById(select).style.opacity = "100%";
-            document.getElementById(select).style.color = "white";
-            var indexToRemove = selected.value.indexOf(select);
-            selected.value.splice(indexToRemove, 1);
-          } else {
-            document.getElementById(select).style.backgroundColor = "black";
-            document.getElementById(select).style.opacity = "30%";
-            document.getElementById(select).style.color = "white";
-            selected.value.push(select);
-          }
+      if (localStorage.getItem("dark")) {
+        if (document.getElementById(select).style.backgroundColor == "black") {
+          document.getElementById(select).style.backgroundColor = "#1d1d1d";
+          document.getElementById(select).style.opacity = "100%";
+          document.getElementById(select).style.color = "white";
+          var indexToRemove = selected.value.indexOf(select);
+          selected.value.splice(indexToRemove, 1);
         } else {
-          if (
-            document.getElementById(select).style.backgroundColor == "black"
-          ) {
-            document.getElementById(select).style.backgroundColor = "white";
-            document.getElementById(select).style.opacity = "100%";
-            document.getElementById(select).style.color = "black";
-            var indexToRemove = selected.value.indexOf(select);
-            selected.value.splice(indexToRemove, 1);
-          } else {
-            document.getElementById(select).style.backgroundColor = "black";
-            document.getElementById(select).style.opacity = "30%";
-            document.getElementById(select).style.color = "white";
-            selected.value.push(select);
-          }
+          document.getElementById(select).style.backgroundColor = "black";
+          document.getElementById(select).style.opacity = "30%";
+          document.getElementById(select).style.color = "white";
+          selected.value.push(select);
+        }
+      } else {
+        if (document.getElementById(select).style.backgroundColor == "black") {
+          document.getElementById(select).style.backgroundColor = "white";
+          document.getElementById(select).style.opacity = "100%";
+          document.getElementById(select).style.color = "black";
+          var indexToRemove = selected.value.indexOf(select);
+          selected.value.splice(indexToRemove, 1);
+        } else {
+          document.getElementById(select).style.backgroundColor = "black";
+          document.getElementById(select).style.opacity = "30%";
+          document.getElementById(select).style.color = "white";
+          selected.value.push(select);
         }
       }
       //console.log(selected);
