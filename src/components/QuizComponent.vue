@@ -15,7 +15,7 @@
                   : Math.floor((goodAnswersCounter * 100) / counter)
               }}%
             </q-item-label>
-            <q-item-label class="captionStyle">
+            <q-item-label class="text-caption">
               Left:
               {{ left }}</q-item-label
             >
@@ -37,7 +37,7 @@
                   : Math.floor((goodAnswersCounter * 100) / counter)
               }}%
             </q-item-label>
-            <q-item-label class="captionStyle"
+            <q-item-label class="text-caption"
               >Your chance to pass has increased</q-item-label
             >
           </q-item-section>
@@ -262,7 +262,7 @@ export default defineComponent({
     }
 
     function filters(select) {
-      if (localStorage.getItem("dark")) {
+      if (localStorage.getItem("dark") == "true") {
         if (document.getElementById(select).style.backgroundColor == "black") {
           document.getElementById(select).style.backgroundColor = "#1d1d1d";
           document.getElementById(select).style.opacity = "100%";
@@ -289,9 +289,15 @@ export default defineComponent({
           selected.value.push(select);
         }
       }
+      console.log("2", selected.value);
       //console.log(selected);
     }
-    //watch(selected.value.forEach((element) => filters(element)), localStorage.getItem("dark"));
+    watch(
+      selected.value.length
+        ? selected.value.forEach((element) => filters(element))
+        : "",
+      localStorage.getItem("dark")
+    );
 
     const shuffleArray = computed(() => {
       let array = actualAnswers.value[0];
