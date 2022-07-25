@@ -46,7 +46,9 @@ export default defineComponent({
 </script>
 <style lang="scss">
 .answersStyle {
-   color:black; font-weight: 400; font-size: 60%;
+  color: black;
+  font-weight: 400;
+  font-size: 60%;
 }
 @media (min-width: 701px) {
   .my-card {

@@ -1,41 +1,41 @@
 <template>
   <q-page class="q-pa-md text-center" style="font-size: large">
-      <div class="q-pa-md text-center">
-        <h5>Upload test data and start solving quiz!</h5>
-        <div>
-          <p>
-            The file should look like: <br />
-            1. Questions <br />
-            2. Numer of answers <br />
-            3. Answers <br />
-            4. Correct answers without spacing <br />
-            5. Newline
-          </p>
-        </div>
-        <upload-info-vue />
+    <div class="q-pa-md text-center">
+      <h5>Upload test data and start solving quiz!</h5>
+      <div>
+        <p>
+          The file should look like: <br />
+          1. Questions <br />
+          2. Numer of answers <br />
+          3. Answers <br />
+          4. Correct answers without spacing <br />
+          5. Newline
+        </p>
+      </div>
+      <upload-info-vue />
 
-        <q-separator class="q-mt-lg"/>
-        <div class="q-gutter-md q-mt-md row items-start flex flex-center column">
-          
-          <q-input filled v-model="title" label="Title" class="MyInput"> <template v-slot:prepend>
-            <q-icon name="notes" />
-          </template></q-input>
+      <q-separator class="q-mt-lg" />
+      <div class="q-gutter-md q-mt-md row items-start flex flex-center column">
+        <q-input filled v-model="title" label="Title" class="MyInput">
+          <template v-slot:prepend>
+            <q-icon name="notes" /> </template
+        ></q-input>
 
-          <q-file
-            input-class="text-center"
-            class="MyInput"
-            outlined
-            v-model="file"
-            filled
-            label="Input test"
-            :filter="checkFileType"
-            @rejected="onRejected"
-          >
-            <template v-slot:prepend>
-              <q-icon name="attach_file" />
-            </template>
-          </q-file>
-           <!--<q-file
+        <q-file
+          input-class="text-center"
+          class="MyInput"
+          outlined
+          v-model="file"
+          filled
+          label="Input test"
+          :filter="checkFileType"
+          @rejected="onRejected"
+        >
+          <template v-slot:prepend>
+            <q-icon name="attach_file" />
+          </template>
+        </q-file>
+        <!--<q-file
             input-class="text-center"
             class="MyInput"
             outlined
@@ -49,30 +49,35 @@
             <q-icon name="image" />
           </template>
           </q-file>-->
-          <q-input filled v-model="img" label="Link to image(optional)" class="MyInput"> <template v-slot:prepend>
-            <q-icon name="image" />
-          </template></q-input>
-        </div>
-        <div class="q-mt-xl">
-        
-          <q-btn
-            size="25px"
-            round
-            color="grey-10"
-            icon="cloud_upload"
-            @click="readFile()"
-          />
-        </div>
+        <q-input
+          filled
+          v-model="img"
+          label="Link to image(optional)"
+          class="MyInput"
+        >
+          <template v-slot:prepend>
+            <q-icon name="image" /> </template
+        ></q-input>
       </div>
+      <div class="q-mt-xl">
+        <q-btn
+          size="25px"
+          round
+          color="grey-10"
+          icon="cloud_upload"
+          @click="readFile()"
+        />
+      </div>
+    </div>
   </q-page>
 </template>
 
 <script>
 import { useQuasar } from "quasar";
-import { defineComponent, ref,watch } from "vue";
+import { defineComponent, ref, watch } from "vue";
 import { useRouter } from "vue-router";
-import axios from 'axios';
-import UploadInfoVue from "../components/UploadInfo.vue"
+import axios from "axios";
+import UploadInfoVue from "../components/UploadInfo.vue";
 
 export default defineComponent({
   name: "AddTamplatePage",
@@ -85,8 +90,8 @@ export default defineComponent({
     let answers = ref([]);
     let correctAnswers = ref([]);
     let warning = ref("");
-    let img = ref(null)
-    let title = ref('')
+    let img = ref(null);
+    let title = ref("");
 
     function checkFileType(file) {
       return file.filter((f) => f.type === "text/plain");
@@ -104,60 +109,64 @@ export default defineComponent({
         questions: questions,
         answers: answers,
         correctAnswers: correctAnswers,
-      };  
+      };
 
-      let formData = new FormData()
-      formData.append('date', parseInt(Date.now()))
-      formData.append('json', JSON.stringify(data))
-      formData.append('title', title.value)
-      formData.append('image', img.value != null ? img.value : ''  )
-      let goodPas = true
-      
+      let formData = new FormData();
+      formData.append("date", parseInt(Date.now()));
+      formData.append("json", JSON.stringify(data));
+      formData.append("title", title.value);
+      formData.append("image", img.value != null ? img.value : "");
+      let goodPas = true;
+
       $q.dialog({
-          title: 'Password',
-          message: 'Give password',
-          prompt: {
-            model: '',
-            isValid: val => val.length > 2, // << here is the magic
-            type: 'text' // optional
-          },
-          cancel: true,
-          persistent: true
-      }).onOk(data => {
-          let pas = ''
-          axios.get('https://tester-backend.herokuapp.com/pas/').then(response => {
-            pas = response.data
-            if (pas == data && data != '') {
-              axios.post('https://tester-backend.herokuapp.com/add/', formData).then(response => {
-                console.log('response')
-              })
+        title: "Password",
+        message: "Give password",
+        prompt: {
+          model: "",
+          isValid: (val) => val.length > 2, // << here is the magic
+          type: "text", // optional
+        },
+        cancel: true,
+        persistent: true,
+      }).onOk((data) => {
+        let pas = "";
+        axios
+          .get("https://tester-backend.herokuapp.com/pas/")
+          .then((response) => {
+            pas = response.data;
+            if (pas == data && data != "") {
+              axios
+                .post("https://tester-backend.herokuapp.com/add/", formData)
+                .then((response) => {
+                  console.log("response");
+                });
               router.push({ name: "home" });
-            }
-            else {
+            } else {
               $q.notify({
                 type: "negative",
                 size: "large",
                 message: `Wrong password!`,
               });
             }
-          })
-
-    
-        })
-      
+          });
+      });
     }
 
     function checkImg(file) {
-      return file.filter((f) => f.type ===  'image/png' || f.type ===  'image/jpg' || f.type ===  'image/jpeg' );
+      return file.filter(
+        (f) =>
+          f.type === "image/png" ||
+          f.type === "image/jpg" ||
+          f.type === "image/jpeg"
+      );
     }
 
     async function readFile() {
       warning.value = "";
-      if (title.value === '') {
+      if (title.value === "") {
         warning.value = "title is required";
-        $q.notify(warning.value)
-      }
-      else {
+        $q.notify(warning.value);
+      } else {
         const str = await file.value.text();
         const lines = str.split(/\r?\n/);
         var it = 0;
@@ -225,22 +234,20 @@ export default defineComponent({
       img,
       title,
       checkImg,
-      warning
+      warning,
     };
   },
 });
 </script>
 <style lang="scss">
-
 .MyInput {
   width: 70%;
   .q-field__label {
     text-align: left;
   }
-    @media (min-width: 900px) { 
+  @media (min-width: 900px) {
     width: 50%;
     text-align: left;
-    
   }
 }
 </style>

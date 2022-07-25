@@ -1,17 +1,11 @@
 <template>
   <div class="q-gutter-md">
-    <q-btn
-      color="grey-10"
-      label="Show Example"
-      @click="img = !img"
-      
-    />
-    <br/>
+    <q-btn color="grey-10" label="Show Example" @click="img = !img" />
+    <br />
     <!-- using v-if so you can see the effect -->
     <q-img
       v-if="img !== false"
-       style="max-width:800px;
-       width:80%;"
+      style="max-width: 800px; width: 80%"
       src="../assets/example.png"
     />
   </div>
@@ -19,18 +13,18 @@
 
 <script>
 import { defineComponent, ref } from "vue";
-import { useQuasar } from 'quasar'
+import { useQuasar } from "quasar";
 
 export default defineComponent({
   name: "UploadInfo",
 
-  setup () {
-    const $q = useQuasar()
-    const img = ref(false)
-    
+  setup() {
+    const $q = useQuasar();
+    const img = ref(false);
+
     return {
-      img
-    }
-  }
+      img,
+    };
+  },
 });
 </script>

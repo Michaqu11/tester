@@ -2,7 +2,7 @@
   <div
     class="q-pa-md row items-start q-gutter-md vertical-middle row full-height justify-center"
   >
-    <q-card class="my-card" flat bordered style="max-width: 1200px;">
+    <q-card class="my-card" flat bordered style="max-width: 1200px">
       <q-list bordered>
         <q-item>
           <q-item-section v-if="started < 2">
@@ -134,7 +134,7 @@
 
           <q-separator />
         </div>
-        
+
         <div v-if="started == 2" style="width: 100%">
           <quiz-show-good-answer
             :question="actualQuestion"
@@ -171,7 +171,7 @@ import { defineComponent, onMounted, ref, watch, computed } from "vue";
 import QuizShowGoodAnswerVue from "./QuizShowGoodAnswer.vue";
 import QuizShowGoodAnswer from "./QuizShowGoodAnswer.vue";
 import { useRouter } from "vue-router";
-import { useQuasar } from 'quasar'
+import { useQuasar } from "quasar";
 
 export default defineComponent({
   components: { QuizShowGoodAnswerVue, QuizShowGoodAnswer },
@@ -195,34 +195,32 @@ export default defineComponent({
     let selected = ref([]);
     let onlyGoodAnswer = ref([]);
     let answerInfo = ref("");
-    let saveFlag = ref(false)
-    const $q = useQuasar()
+    let saveFlag = ref(false);
+    const $q = useQuasar();
 
     function randQuestion() {
-      
       let rand = Math.floor(Math.random() * data.questions._value.length);
-        
-        actualAnswers.value.push(data.answers._value[rand]);
-        actualQuestion.value = data.questions._value[rand];
-        actualCorrectAnswers.value.push(data.correctAnswers._value[rand]);
-        data.questions._value[rand].counter =
-          data.questions._value[rand].counter + 1;
 
-        // console.log("to cos", data.answers._value[rand]);
-        for (var arr of actualAnswers.value[0].answer) {
-          if (actualCorrectAnswers.value[0].correct.includes(arr.id)) {
-            onlyGoodAnswer.value.push(arr);
-          }
+      actualAnswers.value.push(data.answers._value[rand]);
+      actualQuestion.value = data.questions._value[rand];
+      actualCorrectAnswers.value.push(data.correctAnswers._value[rand]);
+      data.questions._value[rand].counter =
+        data.questions._value[rand].counter + 1;
+
+      // console.log("to cos", data.answers._value[rand]);
+      for (var arr of actualAnswers.value[0].answer) {
+        if (actualCorrectAnswers.value[0].correct.includes(arr.id)) {
+          onlyGoodAnswer.value.push(arr);
         }
-         if (data.questions._value[rand].counter == maxNumberofAnswers) {
-          data.questions._value.splice(rand, 1);
-          data.answers._value.splice(rand, 1);
-          data.correctAnswers._value.splice(rand, 1);
-        }
-        return rand
+      }
+      if (data.questions._value[rand].counter == maxNumberofAnswers) {
+        data.questions._value.splice(rand, 1);
+        data.answers._value.splice(rand, 1);
+        data.correctAnswers._value.splice(rand, 1);
+      }
+      return rand;
     }
-    function nextQuestion () {
-      
+    function nextQuestion() {
       onlyGoodAnswer.value = [];
       actualAnswers.value = [];
       actualCorrectAnswers.value = [];
@@ -230,59 +228,76 @@ export default defineComponent({
       started.value = 1;
 
       if (data.questions._value.length > 0) {
-        
         let rand = randQuestion();
         /*if (data.questions._value[rand].counter == maxNumberofAnswers) {
           data.questions._value.splice(rand, 1);
           data.answers._value.splice(rand, 1);
           data.correctAnswers._value.splice(rand, 1);
         }*/
-
       } else {
         started.value = 3;
       }
     }
     function restart() {
-      window.location.reload()
+      window.location.reload();
     }
-    
-    function save () {
 
-        data.score.counter = counter.value
-        data.score.goodAnswersCounter = goodAnswersCounter.value
-        data.score.left = left.value
-        
-        //console.log('test', data)
-        localStorage.setItem("data", JSON.stringify(data));
+    function save() {
+      data.score.counter = counter.value;
+      data.score.goodAnswersCounter = goodAnswersCounter.value;
+      data.score.left = left.value;
 
-        saveFlag.value = false
+      //console.log('test', data)
+      localStorage.setItem("data", JSON.stringify(data));
 
-          $q.notify({
-            progress: true,
-            message: 'The test has been saved',
-            icon: 'save_alt',
-            color: 'white',
-            textColor: 'grey-10'
-          })
+      saveFlag.value = false;
 
-
-
+      $q.notify({
+        progress: true,
+        message: "The test has been saved",
+        icon: "save_alt",
+        color: "white",
+        textColor: "grey-10",
+      });
     }
+
     function filters(select) {
-      if (document.getElementById(select).style.backgroundColor == "black") {
-        document.getElementById(select).style.backgroundColor = "white";
-        document.getElementById(select).style.opacity = "100%";
-        document.getElementById(select).style.color = "black";
-        var indexToRemove = selected.value.indexOf(select);
-        selected.value.splice(indexToRemove, 1);
-      } else {
-        document.getElementById(select).style.backgroundColor = "black";
-        document.getElementById(select).style.opacity = "30%";
-        document.getElementById(select).style.color = "white";
-        selected.value.push(select);
+      if (select) {
+        if (localStorage.getItem("dark")) {
+          if (
+            document.getElementById(select).style.backgroundColor == "black"
+          ) {
+            document.getElementById(select).style.backgroundColor = "#1d1d1d";
+            document.getElementById(select).style.opacity = "100%";
+            document.getElementById(select).style.color = "white";
+            var indexToRemove = selected.value.indexOf(select);
+            selected.value.splice(indexToRemove, 1);
+          } else {
+            document.getElementById(select).style.backgroundColor = "black";
+            document.getElementById(select).style.opacity = "30%";
+            document.getElementById(select).style.color = "white";
+            selected.value.push(select);
+          }
+        } else {
+          if (
+            document.getElementById(select).style.backgroundColor == "black"
+          ) {
+            document.getElementById(select).style.backgroundColor = "white";
+            document.getElementById(select).style.opacity = "100%";
+            document.getElementById(select).style.color = "black";
+            var indexToRemove = selected.value.indexOf(select);
+            selected.value.splice(indexToRemove, 1);
+          } else {
+            document.getElementById(select).style.backgroundColor = "black";
+            document.getElementById(select).style.opacity = "30%";
+            document.getElementById(select).style.color = "white";
+            selected.value.push(select);
+          }
+        }
       }
       //console.log(selected);
     }
+    //watch(selected.value.forEach((element) => filters(element)), localStorage.getItem("dark"));
 
     const shuffleArray = computed(() => {
       let array = actualAnswers.value[0];
@@ -326,11 +341,9 @@ export default defineComponent({
     }
 
     onMounted(() => {
-     
       numberOfQuestions = data.answers._value.length;
 
-      if(left.value == -1)
-        left.value = numberOfQuestions * maxNumberofAnswers;
+      if (left.value == -1) left.value = numberOfQuestions * maxNumberofAnswers;
     });
 
     return {
@@ -355,29 +368,33 @@ export default defineComponent({
       nextQuestion,
       restart,
       saveFlag,
-      save
+      save,
     };
   },
 });
 </script>
 <style lang="scss">
-
-.captionStyle{
-  color:black; opacity: 0.54; font-weight: 400; font-size: 60%;
+.captionStyle {
+  color: black;
+  opacity: 0.54;
+  font-weight: 400;
+  font-size: 60%;
 }
 
 .answersStyle {
-   color:black; font-weight: 400; font-size: 60%;
+  color: black;
+  font-weight: 400;
+  font-size: 60%;
 }
 
-.btnStyle2F{
+.btnStyle2F {
   font-size: 1.2vw;
 }
 
 @media (min-width: 701px) {
   .my-card {
     width: 90%;
-   // font-size: 1.5vw ;
+    // font-size: 1.5vw ;
   }
 }
 @media (max-width: 701px) {

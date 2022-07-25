@@ -12,7 +12,7 @@
           @click="leftDrawerOpen = !leftDrawerOpen"
           size="20px"
         />
-        
+
         <q-toolbar-title
           style="
             font-family: customfont;
@@ -22,14 +22,13 @@
           "
           @click="route()"
         >
-
           Tester
         </q-toolbar-title>
       </q-toolbar>
     </q-header>
 
     <q-drawer v-model="leftDrawerOpen" :show-if="leftDrawerOpen" bordered>
-      <q-list style="height: 100%;">
+      <q-list style="height: 100%">
         <q-item-label header> Pages: </q-item-label>
 
         <EssentialLink
@@ -40,15 +39,21 @@
 
         <q-item-label header class="q-mt-md"> Settings: </q-item-label>
 
-        <q-item clickable v-if="showInstall" @click="install" class="text-grey-10">
-
+        <q-item
+          clickable
+          v-if="showInstall"
+          @click="install"
+          class="text-grey-10"
+        >
           <q-item-section avatar>
             <q-icon name="get_app" />
           </q-item-section>
 
-          <q-item-section >
+          <q-item-section>
             <q-item-label>Install App</q-item-label>
-            <q-item-label caption>Install applciation to your device</q-item-label>
+            <q-item-label caption
+              >Install applciation to your device</q-item-label
+            >
           </q-item-section>
         </q-item>
 
@@ -60,11 +65,11 @@
           <q-item-section>
             <q-item-label>
               Turn dark Mode
-                <q-toggle 
-                color="grey-10" 
+              <q-toggle
+                color="grey-10"
                 v-model="darkMode"
-                @click = " changeBg()"
-                />
+                @click="changeBg()"
+              />
             </q-item-label>
           </q-item-section>
         </q-item>
@@ -75,16 +80,20 @@
           </q-item-section>
 
           <q-item-section>
-            <q-item-label>Show Footer <q-toggle 
-                color="grey-10" 
+            <q-item-label
+              >Show Footer
+              <q-toggle
+                color="grey-10"
                 v-model="showFooter"
                 @click="footerSettimg()"
-                /></q-item-label>
-          
+            /></q-item-label>
           </q-item-section>
         </q-item>
 
-        <q-item-label class="text-center absolute-bottom text-subtitle2  q-mb-md" @click="installHide()">
+        <q-item-label
+          class="text-center absolute-bottom text-subtitle2 q-mb-md"
+          @click="installHide()"
+        >
           <a overline class="text-grey-5 full-height">by Michal Jasinski</a>
         </q-item-label>
       </q-list>
@@ -129,7 +138,7 @@ const linksList = [
     icon: "view_list",
     link: "/templates",
   },
-    {
+  {
     title: "Add templates",
     caption: "Add template to database",
     icon: "add_link",
@@ -147,83 +156,90 @@ export default defineComponent({
   setup() {
     const leftDrawerOpen = ref(false);
     const $q = useQuasar();
-    const router = useRouter(); 
-    let showFooter = ref(localStorage.getItem("footer") != undefined ? (localStorage.getItem("footer") === 'true' ? true : false) : false);
-        
-    let darkMode = ref(localStorage.getItem("dark") != undefined ? (localStorage.getItem("dark") === 'true' ? true : false) : false);
-   
-    let deferredPrompt;
-    let showInstall = ref(true)
+    const router = useRouter();
+    let showFooter = ref(
+      localStorage.getItem("footer") != undefined
+        ? localStorage.getItem("footer") === "true"
+          ? true
+          : false
+        : false
+    );
 
-    
-    function install () {
+    let darkMode = ref(
+      localStorage.getItem("dark") != undefined
+        ? localStorage.getItem("dark") === "true"
+          ? true
+          : false
+        : false
+    );
+
+    let deferredPrompt;
+    let showInstall = ref(true);
+
+    function install() {
       // Hide the app provided install promotion
-      showInstall.value = false
-      leftDrawerOpen.value = !leftDrawerOpen.value
+      showInstall.value = false;
+      leftDrawerOpen.value = !leftDrawerOpen.value;
       // Show the install prompt
-      if(deferredPrompt)
-        deferredPrompt.prompt();
+      if (deferredPrompt) deferredPrompt.prompt();
       else {
-         $q.notify({
-        type: "negative",
-        message: 'You cant install application on this device. Try again later.',
-      });
+        $q.notify({
+          type: "negative",
+          message:
+            "You cant install application on this device. Try again later.",
+        });
       }
 
       // Wait for the user to respond to the prompt
       deferredPrompt = null;
     }
 
-    function installHide () {
-      showInstall.value = false
-      leftDrawerOpen.value = !leftDrawerOpen.value
+    function installHide() {
+      showInstall.value = false;
+      leftDrawerOpen.value = !leftDrawerOpen.value;
       // Show the install prompt
-      if(deferredPrompt)
-        deferredPrompt.prompt();
+      if (deferredPrompt) deferredPrompt.prompt();
 
       // Wait for the user to respond to the prompt
       deferredPrompt = null;
     }
 
-    function footerSettimg () {
-      localStorage.setItem("footer",  showFooter.value);
+    function footerSettimg() {
+      localStorage.setItem("footer", showFooter.value);
     }
-    
-    function changeBg () {
-      $q.dark.set(darkMode.value)
+
+    function changeBg() {
+      $q.dark.set(darkMode.value);
       localStorage.setItem("dark", darkMode.value);
-      let color = "#ffffff"
-      if (darkMode.value)
-        color = "#000000"
-         
-      document.querySelector('meta[name="theme-color"]').setAttribute('content',  color)
-      
-    
+      let color = "#ffffff";
+      if (darkMode.value) color = "#1d1d1d";
+
+      document
+        .querySelector('meta[name="theme-color"]')
+        .setAttribute("content", color);
     }
     //watch(changeBg, darkMode)
-    function route () {
-        router.push({ name: "home" });
-      }
+    function route() {
+      router.push({ name: "home" });
+    }
     onMounted(() => {
-
-      window.addEventListener('beforeinstallprompt', function (event) {
-      // Prevent Chrome 67 and earlier from automatically showing the prompt
-      event.preventDefault();
-      // Stash the event so it can be triggered later.
-      deferredPrompt = event;
+      window.addEventListener("beforeinstallprompt", function (event) {
+        // Prevent Chrome 67 and earlier from automatically showing the prompt
+        event.preventDefault();
+        // Stash the event so it can be triggered later.
+        deferredPrompt = event;
       });
 
       if (screen.width <= 500) {
-        showInstall.value = false
-        if(localStorage.getItem("footer") == undefined)
+        showInstall.value = false;
+        if (localStorage.getItem("footer") == undefined)
           showFooter.value = true;
       }
 
-      changeBg()  
-      footerSettimg()     
+      changeBg();
+      footerSettimg();
+    });
 
-    }) 
-    
     return {
       essentialLinks: linksList,
       leftDrawerOpen,
@@ -234,7 +250,7 @@ export default defineComponent({
       darkMode,
       changeBg,
       route,
-      installHide
+      installHide,
     };
   },
 });
@@ -250,41 +266,38 @@ export default defineComponent({
   position: absolute;
 }
 .body--dark {
-
   .q-header {
-    background: #1D1D1D !important;
+    background: #1d1d1d !important;
     .q-toolbar__title {
       color: white;
     }
-    .q-btn{
-      color: white
+    .q-btn {
+      color: white;
     }
-    
   }
-  .q-footer{
-    background: #1D1D1D !important;
+  .q-footer {
+    background: #1d1d1d !important;
     border-top-style: solid;
     border-top-color: white;
     .q-tab {
-     color: white;
+      color: white;
     }
-
   }
-  .q-item__section{
+  .q-item__section {
     color: white;
   }
-  .q-icon{
+  .q-icon {
     color: white;
   }
   .q-toggle__thumb {
     color: white;
   }
-  .q-toggle__track{
+  .q-toggle__track {
     color: white;
   }
 
   .bodyPage {
-    background: #1D1D1D !important
+    background: #1d1d1d !important;
   }
 }
 </style>

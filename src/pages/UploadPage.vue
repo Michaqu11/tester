@@ -48,7 +48,7 @@
 import { useQuasar } from "quasar";
 import { defineComponent, ref } from "vue";
 import { useRouter } from "vue-router";
-import UploadInfoVue from "../components/UploadInfo.vue"
+import UploadInfoVue from "../components/UploadInfo.vue";
 
 export default defineComponent({
   name: "UploadPage",
@@ -81,8 +81,8 @@ export default defineComponent({
         score: {
           counter: 0,
           goodAnswersCounter: 0,
-          left: -1
-        }
+          left: -1,
+        },
       };
       localStorage.setItem("data", JSON.stringify(data));
       router.push({ name: "home" });
@@ -156,7 +156,7 @@ export default defineComponent({
       checkFileType,
       onRejected,
       readFile,
-      UploadInfoVue
+      UploadInfoVue,
     };
   },
 });
